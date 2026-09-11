@@ -1,9 +1,6 @@
 ﻿#include "Vog.h"
 
-using namespace std;
-
-int main()
-{
-	cout << "Hello CMake" << endl;
+int main() {
+	std::cout << "Hello, World!\n";
 	return 0;
 }
