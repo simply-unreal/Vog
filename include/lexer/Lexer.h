@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -123,7 +124,7 @@ struct SourceLocation {
 struct Token {
 	TokenType type = TokenType::UNKNOWN;
 
-	std::string_view value{};
+	std::string value{};
 
 	SourceLocation location{};
 };
@@ -145,7 +146,7 @@ public:
 private:
 	Token scan_token(); // Scans the next token based on current character.
 
-	Token scan_identifer(); // Scans a identifier (or a keyword).
+	Token scan_identifier(); // Scans a identifier (or a keyword).
 
 	Token scan_number(); // Scans a int literal (or floating point literal).
 
@@ -163,9 +164,9 @@ private:
 
 	void advance(); // Advance the lexer by one character and updates the source location.
 
-	void skip_whitespace(); // Skips whitespace.
+	bool skip_whitespace(); // Skips whitespace.
 
-	void skip_comment(); // Skips a comment.
+	bool skip_comment(); // Skips a comment.
 
 	static TokenType keyword_type(std::string_view text) noexcept; // Returns the token associated with a keyword.
 

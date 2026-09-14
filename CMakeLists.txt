@@ -11,6 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(Vog
     src/Vog.cpp
+    src/lexer/Lexer.cpp
 )
 
 target_include_directories(Vog
