@@ -1,0 +1,6 @@
+import std.io
+
+fn main() -> i8 {
+	println("Hello, Vog!")
+	return 0
+}

@@ -1,5 +1,7 @@
 #include "lexer/Lexer.hpp"
 
+namespace vog {
+
 static bool valid_digit_separator(std::string_view text) noexcept {
 	if (text.empty())
 		return false;
@@ -734,4 +736,6 @@ Token Lexer::error_token() {
 	}
 
 	return make_token(TokenType::UNKNOWN);
+}
+
 }
