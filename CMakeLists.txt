@@ -17,12 +17,17 @@ add_executable(Vog
 target_include_directories(Vog
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg_installed/x64-windows/include
 )
 
 if(MSVC)
     target_compile_options(Vog PRIVATE /W4)
 else()
-    target_compile_options(Vog PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(Vog PRIVATE
+        -Wall
+        -Wextra
+        -Wpedantic
+    )
 endif()
 
 set_target_properties(Vog PROPERTIES

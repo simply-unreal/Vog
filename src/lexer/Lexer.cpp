@@ -1,6 +1,4 @@
-#include "lexer/Lexer.h"
-#include <cctype>
-#include <string_view>
+#include "lexer/Lexer.hpp"
 
 static bool valid_digit_separator(std::string_view text) noexcept {
 	if (text.empty())

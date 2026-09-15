@@ -1,4 +1,4 @@
-﻿#include "Vog.h"
+﻿#include "Vog.hpp"
 
 int main() {
 	const std::string source = R"(
