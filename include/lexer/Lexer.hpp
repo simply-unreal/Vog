@@ -32,159 +32,95 @@
 #include <string_view>
 #include <vector>
 
-namespace vog {
+enum class TokenType {
+	// SPECIAL AND LITERALS //
+	END_OF_FILE,
+	UNKNOWN,
+	NULL_LITERAL,
 
-	enum class TokenType {
-		// Basic literals and identifiers.
-		END_OF_FILE,
-		UNKNOWN,
-		NULL_LITERAL,
+	IDENTIFIER,
+	INT_LITERAL,
+	FLOAT_LITERAL,
+	CHAR_LITERAL,
+	STRING_LITERAL,
+	BOOL_LITERAL,
 
-		IDENTIFIER,
-		INT_LITERAL,
-		FLOAT_LITERAL,
-		CHAR_LITERAL,
-		STRING_LITERAL,
-		BOOL_LITERAL,
+	// OPERATORS //
+	PLUS, // +
+	MINUS, // -
+	STAR, // *
+	SLASH, // /
+	PERCENT, // %
+	BITWISE_AND, // &
+	BITWISE_OR, // |
+	BITWISE_XOR, // ^
+	BITWISE_NOT, // ~
+	EQUAL, // =
+	PLUS_EQUAL, // +=
+	MINUS_EQUAL, // -=
+	LEFT_SHIFT, // <<
+	RIGHT_SHIFT, // >>
+	LEFT_SHIFT_EQUAL, // <<=
+	RIGHT_SHIFT_EQUAL, // >>=
+	EQUAL_EQUAL, // ==
+	BANG_EQUAL, // !=
+	LESS_THAN, // <
+	GREATER_THAN, // >
+	LESS_EQUAL, // <=
+	GREATER_EQUAL, // >=
+	AND_EQUAL, // &=
+	OR_EQUAL, // |=
+	XOR_EQUAL, // ^=
+	AND, // &&
+	OR, // ||
+	NOT, // !
+	INCREMENT, // ++
+	DECREMENT, // --
+	ARROW, // ->
+	LPAREN, // (
+	RPAREN, // )
+	LBRACE, // {
+	RBRACE, // }
+	LBRACKET, // [
+	RBRACKET, // ]
+	COMMA, // ,
+	DOT, // .
+	COLON, // :
+	SEMICOLON, // ;
+	QUESTION, // ?
+	QUESTION_QUESTION, // ??
 
-		// Arithmetic, bitwise, comparison, and punctuation tokens.
-		PLUS,
-		MINUS,
-		STAR,
-		SLASH,
-		PERCENT,
-		BITWISE_AND,
-		BITWISE_OR,
-		BITWISE_XOR,
-		BITWISE_NOT,
-		EQUAL,
-		PLUS_EQUAL,
-		MINUS_EQUAL,
-		LEFT_SHIFT,
-		RIGHT_SHIFT,
-		LEFT_SHIFT_EQUAL,
-		RIGHT_SHIFT_EQUAL,
-		EQUAL_EQUAL,
-		BANG_EQUAL,
-		LESS_THAN,
-		GREATER_THAN,
-		LESS_EQUAL,
-		GREATER_EQUAL,
-		AND_EQUAL,
-		OR_EQUAL,
-		XOR_EQUAL,
-		AND,
-		OR,
-		NOT,
-		INCREMENT,
-		DECREMENT,
-		ARROW,
-		LPAREN,
-		RPAREN,
-		LBRACE,
-		RBRACE,
-		LBRACKET,
-		RBRACKET,
-		COMMA,
-		DOT,
-		COLON,
-		SEMICOLON,
-		QUESTION,
-		QUESTION_QUESTION,
-
-		// Reserved words recognized by the language.
-		CONST,
-		I8,
-		I16,
-		I32,
-		I64,
-		U8,
-		U16,
-		U32,
-		U64,
-		F32,
-		F64,
-		CHAR,
-		VOID,
-		FN,
-		STRUCT,
-		CLASS,
-		ENUM,
-		IF,
-		ELSE,
-		WHILE,
-		FOR,
-		RETURN,
-		BREAK,
-		CONTINUE,
-		DO,
-		SWITCH,
-		CASE,
-		DEFAULT,
-		IMPORT,
-		FROM,
-		NEW,
-		DELETE
-	};
-
-	struct SourceLocation {
-		// Source positions are one-based for lines and columns, while offsets are zero-based.
-		std::size_t offset = 0;
-		std::size_t line = 1;
-		std::size_t column = 1;
-	};
-
-	struct Token {
-		// A token preserves both its semantic category and original source spelling.
-		TokenType type = TokenType::UNKNOWN;
-		std::string value{};
-		SourceLocation location{};
-	};
-
-	class Lexer {
-	  public:
-		// Creates a lexer whose views refer to the supplied source text.
-		explicit Lexer(std::string_view source);
-
-		// Consumes and returns the next token.
-		Token next();
-		// Returns the next token without consuming it.
-		const Token &peek();
-		// Consumes tokens through the end-of-file marker.
-		std::vector<Token> tokenize();
-		// Reports whether all source characters have been consumed.
-		bool is_at_end() const noexcept;
-		// Restores the lexer to its initial position.
-		void reset();
-
-	  private:
-		Token scan_token();
-		Token scan_identifier();
-		Token scan_number();
-		Token scan_string();
-		Token scan_char();
-		Token scan_operator();
-		char current() const noexcept;
-		char peek_char(std::size_t offset = 1) const noexcept;
-		bool match(char expected);
-		void advance();
-		bool skip_whitespace();
-		bool skip_comment();
-		static TokenType keyword_type(std::string_view text) noexcept;
-		Token make_token(TokenType type);
-		Token error_token();
-
-	  private:
-		std::string_view source_;
-		std::size_t start_ = 0;
-		std::size_t current_ = 0;
-		std::size_t line_ = 1;
-		std::size_t column_ = 1;
-		std::size_t token_offset_ = 0;
-		std::size_t token_line_ = 1;
-		std::size_t token_column_ = 1;
-		bool has_peeked_ = false;
-		Token peeked_token_{};
-	};
-
-} // namespace vog
+	// KEYWORDS //
+	CONST,
+	I8,
+	I16,
+	I32,
+	I64,
+	U8,
+	U16,
+	U32,
+	U64,
+	F32,
+	F64,
+	CHAR,
+	VOID,
+	FN,
+	STRUCT,
+	CLASS,
+	ENUM,
+	IF,
+	ELSE,
+	WHILE,
+	FOR,
+	RETURN,
+	BREAK,
+	CONTINUE,
+	DO,
+	SWITCH,
+	CASE,
+	DEFAULT,
+	IMPORT,
+	FROM,
+	NEW,
+	DELETE
+};

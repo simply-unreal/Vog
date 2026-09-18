@@ -24,8 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "app/Application.hpp"
+#include "main.hpp"
 
-int main(int argc, char *argv[]) {
-	return vog::app::run(argc, argv);
+int main() {
+	return 0;
 }
