@@ -26,11 +26,9 @@
 
 #pragma once
 
-#include <cctype>
-#include <cstddef>
+#include <cstdint>
 #include <string>
 #include <string_view>
-#include <vector>
 
 enum class TokenType {
 	// SPECIAL AND LITERALS //
@@ -123,4 +121,21 @@ enum class TokenType {
 	FROM,
 	NEW,
 	DELETE
+};
+
+struct Span {
+	uint64_t start;
+	uint64_t end;
+};
+
+struct Token {
+	TokenType type;
+	Span location;
+	std::string_view value;
+};
+
+class Lexer {
+private:
+	std::string_view source;
+	uint64_t pos = 0;
 };
